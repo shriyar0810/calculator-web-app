@@ -1,0 +1,414 @@
+/* ==========================================================================
+   Calculator Stylesheet
+   Modern Tactile Hardware Design with 3D Keycaps & CSS Grid
+   ========================================================================== */
+
+/* Box sizing and reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Page body: centered layout with ambient studio backdrop */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, #f8fafc 0%, #e2e8f0 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #0f172a;
+  padding: 24px;
+}
+
+/* Main calculator enclosure: sculpted hardware chassis */
+.calculator-container {
+  width: 100%;
+  max-width: 370px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 26px;
+  box-shadow:
+    0 25px 50px -12px rgba(15, 23, 42, 0.18),
+    0 12px 24px -8px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(226, 232, 240, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  padding: 24px 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+/* Subtle top hardware accent bar / solar cell badge */
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.calculator-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.calculator-title::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981; /* Status indicator pip */
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+/* Solar cell ornament strip for authentic physical calculator aesthetic */
+.solar-panel {
+  display: flex;
+  gap: 3px;
+  padding: 4px 6px;
+  background: #1e293b;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.solar-cell {
+  width: 10px;
+  height: 12px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  border-radius: 1px;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   Calculator Display Screen (Deep OLED / Glass bezel)
+   ========================================================================== */
+.calculator-display {
+  background: linear-gradient(180deg, #090e17 0%, #0f172a 100%);
+  border-radius: 18px;
+  padding: 16px 20px;
+  text-align: right;
+  min-height: 102px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 2px 4px rgba(255, 255, 255, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top glass gloss sheen */
+.calculator-display::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+  pointer-events: none;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+
+/* Upper line: Expression history */
+.display-history {
+  font-size: 0.95rem;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, Monaco, monospace;
+  color: #38bdf8; /* Catchy electric cyan tint */
+  min-height: 1.3rem;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.display-history::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lower line: Current active input or calculated result */
+.display-current {
+  font-size: 2.35rem;
+  font-weight: 700;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, Monaco, monospace;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  word-break: break-all;
+  line-height: 1.15;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.2);
+}
+
+.display-current::-webkit-scrollbar {
+  display: none;
+}
+
+/* Long text scaling */
+.display-current.is-long {
+  font-size: 1.55rem;
+}
+
+/* Error message styling */
+.display-current.is-error {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fb7185;
+  text-shadow: 0 0 10px rgba(251, 113, 133, 0.35);
+  white-space: normal;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   Keypad - CSS Grid & Catchy 3D Keycap Styling
+   ========================================================================== */
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 13px;
+}
+
+/* Base button styles: tactile mechanical-style keycaps */
+.btn {
+  border: 1px solid transparent;
+  border-radius: 14px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  outline: none;
+  position: relative;
+  transition:
+    transform 0.08s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.08s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* Universal tactile key press: keys travel down on press */
+.btn:active, .btn.btn-active {
+  transform: translateY(3px);
+}
+
+/* --------------------------------------------------------------------------
+   1. Number Buttons (0 - 9)
+   Crisp pearl keycaps with dimensional bottom border & drop shadow
+   -------------------------------------------------------------------------- */
+.btn-number {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  color: #1e293b;
+  border-color: #e2e8f0;
+  box-shadow:
+    0 4px 0 #cbd5e1,
+    0 5px 8px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.btn-number:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.btn-number:active, .btn-number.btn-active {
+  box-shadow:
+    0 1px 0 #cbd5e1,
+    0 2px 3px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Zero button spans 2 columns */
+.btn-zero {
+  grid-column: span 2;
+}
+
+/* Decimal button styling */
+#btn-decimal {
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   2. Operator Buttons (÷, ×, −, +)
+   Catchy, vivid Tangerine / Amber with warm gradient & radiant glow
+   -------------------------------------------------------------------------- */
+.btn-operator {
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+  color: #ffffff;
+  border-color: #ea580c;
+  font-size: 1.55rem;
+  box-shadow:
+    0 4px 0 #c2410c,
+    0 6px 12px rgba(249, 115, 22, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-operator:hover {
+  background: linear-gradient(180deg, #fdba74 0%, #ea580c 100%);
+  box-shadow:
+    0 4px 0 #c2410c,
+    0 8px 16px rgba(249, 115, 22, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-operator:active, .btn-operator.btn-active {
+  box-shadow:
+    0 1px 0 #c2410c,
+    0 2px 4px rgba(249, 115, 22, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Active pending operator state */
+.btn-operator.is-active-op {
+  background: #ffffff;
+  color: #ea580c;
+  border-color: #ea580c;
+  box-shadow:
+    0 1px 0 #ea580c,
+    inset 0 2px 4px rgba(234, 88, 12, 0.15),
+    0 0 0 2px #ea580c;
+  transform: translateY(2px);
+}
+
+/* --------------------------------------------------------------------------
+   3. Clear Button (C)
+   Catchy rose-coral candy keycap
+   -------------------------------------------------------------------------- */
+.btn-clear {
+  grid-column: span 2;
+  background: linear-gradient(180deg, #ffe4e6 0%, #fecdd3 100%);
+  color: #e11d48;
+  border-color: #fda4af;
+  font-size: 1.3rem;
+  box-shadow:
+    0 4px 0 #f43f5e,
+    0 5px 10px rgba(225, 29, 72, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-clear:hover {
+  background: linear-gradient(180deg, #fecdd3 0%, #fda4af 100%);
+  color: #be123c;
+  box-shadow:
+    0 4px 0 #e11d48,
+    0 6px 12px rgba(225, 29, 72, 0.22);
+}
+
+.btn-clear:active, .btn-clear.btn-active {
+  box-shadow:
+    0 1px 0 #f43f5e,
+    0 2px 3px rgba(225, 29, 72, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   4. Backspace Button (⌫)
+   Sleek gunmetal slate keycap
+   -------------------------------------------------------------------------- */
+.btn-backspace {
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #475569;
+  border-color: #cbd5e1;
+  font-size: 1.35rem;
+  box-shadow:
+    0 4px 0 #94a3b8,
+    0 5px 8px rgba(15, 23, 42, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-backspace:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+  color: #1e293b;
+  border-color: #94a3b8;
+}
+
+.btn-backspace:active, .btn-backspace.btn-active {
+  box-shadow:
+    0 1px 0 #94a3b8,
+    0 2px 3px rgba(15, 23, 42, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   5. Equals Button (=)
+   Catchy Electric Royal Indigo with vibrant luminosity
+   -------------------------------------------------------------------------- */
+.btn-equals {
+  background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  border-color: #4338ca;
+  font-size: 1.6rem;
+  box-shadow:
+    0 4px 0 #3730a3,
+    0 6px 14px rgba(79, 70, 229, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.btn-equals:hover {
+  background: linear-gradient(180deg, #818cf8 0%, #4338ca 100%);
+  box-shadow:
+    0 4px 0 #3730a3,
+    0 8px 18px rgba(79, 70, 229, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.btn-equals:active, .btn-equals.btn-active {
+  box-shadow:
+    0 1px 0 #3730a3,
+    0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+/* ==========================================================================
+   Responsive Viewport Refinements
+   ========================================================================== */
+@media (max-width: 410px) {
+  body {
+    padding: 12px;
+  }
+
+  .calculator-container {
+    padding: 18px 16px 20px;
+    border-radius: 20px;
+    gap: 16px;
+  }
+
+  .calculator-keypad {
+    gap: 10px;
+  }
+
+  .btn {
+    height: 56px;
+    font-size: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .calculator-display {
+    padding: 14px 16px;
+    min-height: 90px;
+  }
+
+  .display-current {
+    font-size: 2rem;
+  }
+}
